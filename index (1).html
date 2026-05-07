@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiteWarming · DNS & Enhance · Interactive Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f5f5f4;
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --text-subtle: #78716c;
+  --accent: #ea580c;
+  --accent-soft: #fff7ed;
+  --accent-border: #fed7aa;
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --success-border: #bbf7d0;
+  --warning: #d97706;
+  --warning-soft: #fffbeb;
+  --warning-border: #fde68a;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --danger-border: #fecaca;
+  --info: #2563eb;
+  --info-soft: #eff6ff;
+  --info-border: #bfdbfe;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow: 0 1px 3px rgba(28, 25, 23, 0.06), 0 4px 12px rgba(28, 25, 23, 0.04);
+  --shadow-lg: 0 4px 6px rgba(28, 25, 23, 0.04), 0 12px 32px rgba(28, 25, 23, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), #f97316);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 14px;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.org-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+}
+
+.org-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.org-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.org-role {
+  color: var(--text-subtle);
+  font-size: 11px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.nav-item.active {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.nav-item .badge {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--text-subtle);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-footer .label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-subtle);
+  padding: 0 12px;
+  margin-bottom: 4px;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f97316, #c2410c);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.user-email {
+  font-size: 10.5px;
+  color: var(--text-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MAIN */
+.main {
+  padding: 0;
+  position: relative;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 18px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 24px;
+}
+
+.topbar-brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--text);
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+.topbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.topbar-brand-name {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.topbar-brand-flow {
+  font-size: 10.5px;
+  color: var(--text-subtle);
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--text);
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+.step.current .step-circle {
+  background: var(--text-subtle);
+  outline: 4px solid var(--surface-2);
+}
+
+.step-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step-title {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.step-subtitle {
+  font-size: 10.5px;
+  color: var(--text-subtle);
+}
+
+/* CONTENT */
+.content {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 32px 100px;
+  position: relative;
+}
+
+.video-fab {
+  position: fixed;
+  top: 90px;
+  right: 32px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px 10px 12px;
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.2s ease;
+}
+
+.video-fab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(28, 25, 23, 0.15);
+}
+
+.video-fab .play {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+}
+
+.video-fab .registrar-name {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 11px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.page-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 12px;
+  background: var(--surface-2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-subtle);
+}
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.card.verified {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px var(--success-soft);
+}
+
+.card.collapsed .card-body {
+  display: none;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 22px;
+}
+
+.card-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.card-num.done {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.card-num.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.card-subtitle {
+  font-size: 12.5px;
+  color: var(--text-subtle);
+}
+
+.card-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-toggle {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-toggle:hover {
+  background: var(--surface-2);
+}
+
+.card-body {
+  padding: 0 22px 22px;
+}
+
+/* DNS PROVIDER SELECT */
+.field-group {
+  margin-bottom: 18px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  width: 100%;
+  padding: 11px 40px 11px 38px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.select-wrapper select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.select-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-subtle);
+}
+
+.detection-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.detection-msg.warning {
+  color: var(--warning);
+}
+
+.detection-msg.info {
+  color: var(--text-muted);
+}
+
+.compatibility-msg {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* METHOD CARDS */
+.method-section {
+  margin-top: 22px;
+}
+
+.method-section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.method-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.method-card.selected {
+  border-color: var(--text);
+  box-shadow: 0 0 0 1px var(--text);
+}
+
+.method-card.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--surface-2);
+}
+
+.method-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.method-radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+}
+
+.method-card.selected .method-radio {
+  border-color: var(--text);
+}
+
+.method-card.selected .method-radio::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.method-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.method-title-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--text-subtle);
+  margin-left: 6px;
+}
+
+.method-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 100px;
+  margin-left: auto;
+}
+
+.badge-recommended {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+.badge-not-supported {
+  background: var(--surface-2);
+  color: var(--text-subtle);
+  border: 1px solid var(--border);
+}
+
+.method-body {
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 0;
+  display: none;
+}
+
+.method-card.selected .method-body {
+  display: block;
+}
+
+.callout {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  margin-bottom: 14px;
+}
+
+.callout strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.callout.warning {
+  background: var(--warning-soft);
+  border-color: var(--warning-border);
+}
+
+.callout.warning strong {
+  color: var(--warning);
+}
+
+.callout.danger {
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+}
+
+.callout.danger strong {
+  color: var(--danger);
+}
+
+.callout.info {
+  background: var(--info-soft);
+  border-color: var(--info-border);
+}
+
+.callout.info strong {
+  color: var(--info);
+}
+
+/* RECORD */
+.record-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 16px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.record-label .step-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--text);
+  color: white;
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.record-helper {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.55;
+}
+
+.record-helper code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  background: var(--surface-2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.record-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.record-cell {
+  background: var(--surface);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.record-cell-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.record-cell-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-subtle);
+  padding: 2px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.copy-btn.copied {
+  color: var(--success);
+}
+
+/* CLICK PATH */
+.clickpath {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+
+.clickpath-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clickpath-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clickpath-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.clickpath-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.clickpath-item code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  background: var(--surface);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* QUICK LINKS */
+.quick-links {
+  margin-top: 18px;
+}
+
+.quick-links-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.quick-link:hover {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.quick-link-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* GOTCHAS */
+.gotchas {
+  margin-top: 18px;
+  background: var(--info-soft);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.gotchas-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--info);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gotchas-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gotchas-item {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+  padding-left: 14px;
+  position: relative;
+}
+
+.gotchas-item::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--info);
+  font-weight: 700;
+}
+
+/* VERIFICATION */
+.verification-line {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+
+.verification-status {
+  background: var(--success-soft);
+  border: 1px solid var(--success-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--accent);
+  border-radius: 100px;
+}
+
+.progress-pct {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.progress-meta {
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-top: 4px;
+}
+
+.refresh-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+
+.refresh-btn:hover {
+  background: var(--surface-2);
+}
+
+.propagation-note {
+  margin-top: 12px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  border: 1px solid var(--border);
+}
+
+.propagation-note strong {
+  color: var(--text);
+}
+
+/* BOTTOM BAR */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 240px;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-2);
+}
+
+.btn-primary {
+  background: var(--text);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #000;
+}
+
+.btn-primary .icon-bg {
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+}
+
+.step-indicator-bottom {
+  font-size: 12.5px;
+  color: var(--text-subtle);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* VIDEO MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  max-width: 720px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close {
+  background: var(--surface-2);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+
+.modal-close:hover {
+  background: var(--border);
+}
+
+.modal-body {
+  padding: 22px;
+}
+
+.video-placeholder {
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1c1917, #44403c);
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  color: white;
+  text-align: center;
+}
+
+.video-play-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.video-play-icon:hover {
+  transform: scale(1.08);
+}
+
+.video-coming-soon {
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+.video-coming-soon strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 1;
+}
+
+/* TOOLTIPS */
+.help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-subtle);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: help;
+  position: relative;
+  margin-left: 4px;
+}
+
+.help:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: normal;
+  width: 240px;
+  text-align: left;
+  z-index: 50;
+  line-height: 1.5;
+}
+
+/* CHAT BUBBLE */
+.chat-bubble {
+  position: fixed;
+  bottom: 90px;
+  right: 32px;
+  background: #4ade80;
+  color: #052e16;
+  padding: 8px 14px;
+  border-radius: 100px 100px 4px 100px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  z-index: 4;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none;
+  }
+  .bottom-bar {
+    left: 0;
+  }
+  .topbar {
+    padding: 12px 16px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .steps {
+    gap: 12px;
+  }
+  .step-text {
+    display: none;
+  }
+  .video-fab {
+    right: 16px;
+  }
+  .content {
+    padding: 20px 16px 100px;
+  }
+  .record-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2L4 14h6l-2 8 10-12h-6l2-8z" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      </div>
+      <span class="brand-name">SiteWarming</span>
+    </div>
+
+    <div class="org-card">
+      <div class="org-info">
+        <div class="org-name">Parth Kachhia's Organizat...</div>
+        <div class="org-role">Owner</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Learn
+        <span class="badge">0/1</span>
+      </div>
+      <div class="nav-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        My Domains
+      </div>
+      <div class="nav-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Logo Maker
+      </div>
+      <div class="nav-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Connection
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="label">Growth</div>
+      <div class="org-card" style="font-size: 11.5px;">
+        <div class="org-info">
+          <div class="org-name" style="display:flex;align-items:center;gap:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Active</div>
+        </div>
+        <span style="color: var(--text-subtle); font-size: 11px;">0 / 50</span>
+      </div>
+      <div class="org-card" style="font-size: 11.5px;">
+        <div class="org-info">
+          <div class="org-name" style="display:flex;align-items:center;gap:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Logo Credits</div>
+        </div>
+        <span style="color: var(--text-subtle); font-size: 11px;">4</span>
+      </div>
+      <div class="user-card">
+        <div class="avatar">PK</div>
+        <div class="user-info">
+          <div class="user-name">Parth Kachhia</div>
+          <div class="user-email">parth.kachhia@adoptiq.c...</div>
+        </div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-brand">
+        <div class="topbar-brand-logo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2L4 14h6l-2 8 10-12h-6l2-8z" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </div>
+        <div class="topbar-brand-text">
+          <span class="topbar-brand-name">SiteWarming</span>
+          <span class="topbar-brand-flow">Activation Flow</span>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="step-text">
+            <span class="step-title">Domain</span>
+            <span class="step-subtitle">Enter your domain</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="step-text">
+            <span class="step-title">Brand &amp; Schedule</span>
+            <span class="step-subtitle">Theme, market &amp; blog timing</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="step-text">
+            <span class="step-title">Site Type</span>
+            <span class="step-subtitle">Select purpose</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="step-text">
+            <span class="step-title">Commitment</span>
+            <span class="step-subtitle">Review &amp; commit</span>
+          </div>
+        </div>
+        <div class="step current">
+          <div class="step-circle">5</div>
+          <div class="step-text">
+            <span class="step-title">DNS &amp; Enhance</span>
+            <span class="step-subtitle">Configure DNS &amp; social links</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO FAB -->
+    <button class="video-fab" id="videoFab">
+      <span class="play"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+      Watch tutorial
+      <span class="registrar-name" id="fabRegName">Namecheap</span>
+    </button>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="page-header">
+        <div class="page-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h1 class="page-title">Configure namecrates.com</h1>
+        <p class="page-subtitle">Set up DNS and enhance your site with social profiles</p>
+      </div>
+
+      <!-- STEP 1: DNS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num active">1</div>
+          <div>
+            <div class="card-title">Step 1: Configure Your DNS</div>
+            <div class="card-subtitle">Add these DNS records at your domain registrar</div>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="field-group">
+            <label class="field-label">Your DNS provider:</label>
+            <div class="select-wrapper">
+              <span class="select-icon" id="providerIcon">🏠</span>
+              <select id="providerSelect">
+                <!-- populated by JS -->
+              </select>
+              <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="detection-msg" id="detectionMsg">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Auto-detected from your domain registrar</span>
+            </div>
+            <div class="compatibility-msg" id="compatibilityMsg"></div>
+          </div>
+
+          <div class="method-section">
+            <div class="method-section-label">Select your DNS setup method:</div>
+
+            <!-- METHOD A: WITHOUT WWW -->
+            <div class="method-card" id="methodA" onclick="selectMethod('A')">
+              <div class="method-card-head">
+                <div class="method-radio"></div>
+                <div>
+                  <span class="method-title">Without www</span>
+                  <span class="method-title-mono" id="methodAMono">(namecrates.com)</span>
+                </div>
+                <span class="method-badge" id="methodABadge">Recommended</span>
+              </div>
+              <div class="method-body" id="methodABody">
+                <!-- dynamically rendered -->
+              </div>
+            </div>
+
+            <!-- METHOD B: WITH WWW -->
+            <div class="method-card" id="methodB" onclick="selectMethod('B')">
+              <div class="method-card-head">
+                <div class="method-radio"></div>
+                <div>
+                  <span class="method-title">With www</span>
+                  <span class="method-title-mono" id="methodBMono">(www.namecrates.com)</span>
+                </div>
+                <span class="method-badge" id="methodBBadge" style="display:none;">Recommended</span>
+              </div>
+              <div class="method-body" id="methodBBody">
+                <!-- dynamically rendered -->
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-links">
+            <div class="quick-links-label">Quick links to common registrars:</div>
+            <a href="#" class="quick-link" onclick="setProvider('godaddy'); return false;">
+              <span class="quick-link-dot" style="background:#1bdbdb"></span> GoDaddy <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="#" class="quick-link" onclick="setProvider('namecheap'); return false;">
+              <span class="quick-link-dot" style="background:#de3910"></span> Namecheap <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="#" class="quick-link" onclick="setProvider('cloudflare'); return false;">
+              <span class="quick-link-dot" style="background:#f48120"></span> Cloudflare <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="#" class="quick-link" onclick="setProvider('porkbun'); return false;">
+              <span class="quick-link-dot" style="background:#ef6c8a"></span> Porkbun <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+
+          <div class="gotchas" id="gotchasBox">
+            <div class="gotchas-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Things to watch out for on this registrar
+            </div>
+            <ul class="gotchas-list" id="gotchasList">
+              <!-- dynamically rendered -->
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STEP 2: VERIFICATION -->
+      <div class="card verified">
+        <div class="card-header">
+          <div class="card-num done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <div class="card-title">Step 2: Verification Status</div>
+            <div class="verification-line" id="verificationLine">Without www (namecrates.com) ✓ Verified</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="verification-status" id="verificationStatus">Without www verified. Your site is ready at namecrates.com</div>
+          <div class="progress">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <button class="refresh-btn" title="Refresh status"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+          </div>
+          <div class="progress-meta">100% Complete · Last checked: 19:45:14</div>
+
+          <div class="propagation-note">
+            <strong>⏱ DNS Propagation</strong><br>
+            DNS changes typically take 5–30 minutes to propagate, but can take up to 24 hours in rare cases. We'll automatically check and update the status.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: SOCIAL -->
+      <div class="card collapsed">
+        <div class="card-header">
+          <div class="card-num">3</div>
+          <div>
+            <div class="card-title">Step 3: Connect Social Media</div>
+            <div class="card-subtitle">Add your social profiles to increase credibility and help visitors connect (optional)</div>
+          </div>
+          <div class="card-actions">
+            <button class="card-toggle">Expand <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: VALUATION -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div>
+            <div class="card-title">Step 4: Valuation Preview</div>
+            <div class="card-subtitle">Your domain valuation will be saved after launch</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="padding:14px 16px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="display:flex; align-items:baseline; gap:10px;">
+              <span style="font-size:30px; font-weight:800; letter-spacing:-0.02em;">$374</span>
+              <span style="font-size:13px; color:var(--text-muted);">($374 - $374)</span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-subtle); margin-top:2px;">Based on 1 source</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="card-title">Step 5: We're Building Your Site</div>
+            <div class="card-subtitle">Your warmed content is being deployed...</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center; font-size:12.5px; color:var(--text-muted); margin-top:18px; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+        DNS is verified! Click 'Next' below to complete setup
+      </p>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">
+      <button class="btn btn-secondary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+      <div class="step-indicator-bottom">
+        Step 5/5
+        <button class="btn btn-secondary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save</button>
+      </div>
+      <button class="btn btn-primary">
+        <span class="icon-bg"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M14 2L4 14h6l-2 8 10-12h-6l2-8z" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+        Activate Site
+      </button>
+    </div>
+  </main>
+</div>
+
+<div class="chat-bubble">Hello</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span class="play" style="width:22px;height:22px;border-radius:50%;background:var(--accent);display:grid;place-items:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+        <span id="modalTitle">Tutorial</span>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="video-placeholder">
+        <div>
+          <div class="video-play-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="video-coming-soon">
+            <strong id="modalRegName">Namecheap</strong>
+            Tutorial video will be embedded here once recorded
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12.5px; color:var(--text-muted); margin-top:14px; line-height:1.6;">
+        This is where the registrar-specific walkthrough video will play. Each registrar gets its own short screencast (60–90 seconds) showing exactly where to click, what to paste, and how to verify success.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Copied!</span>
+</div>
+
+<script>
+// ======================================================================
+// REGISTRAR DATA — researched May 2026
+// ======================================================================
+
+const TARGET = 'customers.sitewarming.com';
+const DOMAIN = 'namecrates.com';
+
+const registrars = {
+  godaddy: {
+    name: 'GoDaddy',
+    icon: '🟢',
+    color: '#1bdbdb',
+    apexSupported: false,
+    redirectFeature: 'Forwarding',
+    summary: 'GoDaddy does not support CNAME at the bare domain. We\'ll set up a redirect from namecrates.com to www.namecrates.com using their built-in Forwarding feature.',
+    apex: {
+      type: 'Forwarding (301 Permanent)',
+      name: 'namecrates.com',
+      target: 'https://www.namecrates.com',
+      note: 'GoDaddy → Domain Settings → Forwarding → Add. Choose 301 (Permanent). Avoid "Forward with masking" — it breaks SEO.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '1 Hour'
+    },
+    clickPath: [
+      'Sign in to <code>godaddy.com</code> → click your name → <code>Domain Portfolio</code>',
+      'Click your domain → <code>DNS</code> in the left rail',
+      'Click <code>Add New Record</code> → choose Type: <code>CNAME</code>',
+      'Name: <code>www</code> · Value: <code>customers.sitewarming.com</code> · TTL: <code>1 Hour</code> → <code>Save</code>',
+      'For the redirect: Domain Settings → <code>Forwarding</code> → <code>Add Forwarding</code> → 301 Permanent'
+    ],
+    deepLink: 'https://dcc.godaddy.com/control/portfolio',
+    gotchas: [
+      'GoDaddy auto-appends your parent domain to CNAME values. If you paste customers.sitewarming.com and it expands to customers.sitewarming.com.namecrates.com, that\'s the bug — leave the value alone and verify with dig after save.',
+      'There are two interfaces (legacy "DNS Management" and new "Domain Portfolio"). Both work, but click paths differ slightly.',
+      'If your domain has an existing GoDaddy-hosted website attached, that takes priority over manual DNS.'
+    ]
+  },
+
+  namecheap: {
+    name: 'Namecheap',
+    icon: '🟠',
+    color: '#de3910',
+    apexSupported: true,
+    apexMethod: 'ALIAS Record',
+    summary: 'Namecheap supports apex pointing via their ALIAS Record type. This is the cleanest setup and works with email and other records on the same domain.',
+    apex: {
+      type: 'ALIAS Record',
+      name: '@',
+      target: TARGET,
+      ttl: 'Automatic'
+    },
+    www: {
+      type: 'CNAME Record',
+      name: 'www',
+      target: TARGET,
+      ttl: 'Automatic'
+    },
+    clickPath: [
+      'Sign in to <code>namecheap.com</code> → <code>Domain List</code> in the left sidebar',
+      'Click <code>Manage</code> next to namecrates.com',
+      'Open the <code>Advanced DNS</code> tab → scroll to <code>Host Records</code>',
+      'Click <code>Add New Record</code> → Type: <code>ALIAS Record</code> · Host: <code>@</code> · Value: <code>customers.sitewarming.com</code>',
+      'Add another record → Type: <code>CNAME Record</code> · Host: <code>www</code> · Value: <code>customers.sitewarming.com</code> → green checkmark to save'
+    ],
+    deepLink: 'https://ap.www.namecheap.com/Domains/DomainControlPanel/namecrates.com/advancedns',
+    gotchas: [
+      'Host Records section only appears if your nameservers are set to "Namecheap BasicDNS" or "PremiumDNS". If you\'re on custom nameservers, manage DNS at the other provider instead.',
+      'Namecheap auto-appends the parent domain to values — paste customers.sitewarming.com (no trailing dot, no domain suffix).',
+      'Remove any pre-existing parked-page A records on @ before adding the ALIAS — they will conflict.'
+    ]
+  },
+
+  squarespace: {
+    name: 'Squarespace Domains',
+    icon: '⬛',
+    color: '#000000',
+    apexSupported: false,
+    redirectFeature: 'Domain Forwarding Rules',
+    summary: 'Squarespace Domains (formerly Google Domains) does not support CNAME at the apex. We\'ll add the CNAME on www and set up a Domain Forwarding Rule from the bare domain to www.',
+    note: 'If your domain was migrated from Google Domains, you\'ll see a "Squarespace Defaults" block in DNS — delete it before adding new records.',
+    apex: {
+      type: 'Domain Forwarding Rule (301)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'Subdomain field accepts @. Choose Permanent Redirect (301).'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '4 Hours (default)'
+    },
+    clickPath: [
+      'Sign in at <code>account.squarespace.com</code>',
+      '<code>Domains</code> in the sidebar → click namecrates.com',
+      '<code>DNS</code> in the sidebar → <code>DNS Settings</code>',
+      'Delete the "Squarespace Defaults" block (red trash icon) if present',
+      'Scroll to <code>Custom Records</code> → <code>Add Record</code> → Type: <code>CNAME</code> · Host: <code>www</code> · Data: <code>customers.sitewarming.com</code>',
+      'For the apex redirect: <code>Domain Forwarding Rules</code> → <code>Add rule</code> → Subdomain: <code>@</code> → URL: <code>https://www.namecrates.com</code> → Permanent (301)'
+    ],
+    deepLink: 'https://account.squarespace.com/domains/managed/namecrates.com/dns/dns-settings',
+    gotchas: [
+      'Former Google Domains customers: delete the "Squarespace Defaults" block first, otherwise new records conflict.',
+      '2FA reauthentication is required to add records — the Add Record dialog forces a password re-entry. You\'re not actually logged out.',
+      'If your domain is connected via Nameserver Connect to a Squarespace site, only A/AAAA/CNAME/MX/SRV/TXT can be added.'
+    ]
+  },
+
+  cloudflare: {
+    name: 'Cloudflare',
+    icon: '🟧',
+    color: '#f48120',
+    apexSupported: true,
+    apexMethod: 'CNAME Flattening (automatic)',
+    summary: 'Cloudflare supports CNAME at the apex out-of-the-box via CNAME flattening. This is the most flexible setup. Just remember to keep the proxy (orange cloud) OFF.',
+    apex: {
+      type: 'CNAME (flattened)',
+      name: '@',
+      target: TARGET,
+      ttl: 'Auto'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: 'Auto'
+    },
+    clickPath: [
+      'Sign in at <code>dash.cloudflare.com</code> → select your account',
+      'Click your domain (zone)',
+      '<code>DNS</code> → <code>Records</code> → <code>Add record</code>',
+      'Type: <code>CNAME</code> · Name: <code>@</code> · Target: <code>customers.sitewarming.com</code> · Proxy status: <strong>DNS only (gray cloud)</strong> → Save',
+      'Repeat for www: Name: <code>www</code> · same target · same DNS-only setting'
+    ],
+    deepLink: 'https://dash.cloudflare.com/?to=/:account/:zone/dns/records',
+    gotchas: [
+      '⚠️ CRITICAL: The orange cloud (proxy) MUST be OFF (gray cloud / DNS only) for the CNAME pointing to a third-party target. If proxy is ON, you\'ll hit Error 1014 ("CNAME Cross-User Banned") or get SSL handshake errors.',
+      'Cloudflare Registrar zones automatically use Cloudflare nameservers — there\'s no "partial setup" option for registrar customers.',
+      'Propagation is near-instant (under 5 minutes) thanks to Cloudflare\'s anycast network.'
+    ],
+    warning: 'Cloudflare orange-cloud proxy MUST be OFF (gray) for CNAME to work with SiteWarming. Without this, your site will fail with SSL errors.'
+  },
+
+  porkbun: {
+    name: 'Porkbun',
+    icon: '🐷',
+    color: '#ef6c8a',
+    apexSupported: true,
+    apexMethod: 'ALIAS – CNAME flattening',
+    summary: 'Porkbun supports apex pointing via the explicit "ALIAS – CNAME flattening" record type in their DNS dropdown. Clean setup with great support docs.',
+    apex: {
+      type: 'ALIAS - CNAME flattening',
+      name: '(blank for apex)',
+      target: TARGET,
+      ttl: '600 (default)'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '600'
+    },
+    clickPath: [
+      'Sign in at <code>porkbun.com</code> → <code>Account</code> → <code>Domain Management</code>',
+      'Find namecrates.com → click <code>DNS</code> (or <code>Details</code> → edit pencil next to "DNS Records")',
+      'Click <code>Add Record</code>',
+      'Type: <code>ALIAS - CNAME flattening</code> · Host: (leave blank) · Answer: <code>customers.sitewarming.com</code> · TTL: <code>600</code>',
+      'Add another → Type: <code>CNAME</code> · Host: <code>www</code> · Answer: <code>customers.sitewarming.com</code>'
+    ],
+    deepLink: 'https://porkbun.com/account/domains',
+    gotchas: [
+      'Porkbun adds a default A record pointing to pixie.porkbun.com (their parking page) on every new domain. Delete it first or you\'ll see "A CNAME or ALIAS record with that host already exists."',
+      'ALIAS only flattens A/AAAA — TXT/MX/email records on the same apex coexist peacefully (unlike a true CNAME).',
+      'Wildcard CNAME records using * in the Host field can interfere with the explicit www record.'
+    ]
+  },
+
+  networksolutions: {
+    name: 'Network Solutions',
+    icon: '🔵',
+    color: '#0066cc',
+    apexSupported: false,
+    redirectFeature: 'Web Forwarding',
+    summary: 'Network Solutions explicitly only supports CNAME on third-level domains (subdomains). For the apex, use their Web Forwarding feature.',
+    apex: {
+      type: 'Web Forwarding (301)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'Domain page → Advanced Tools → Web Forwarding → Manage'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '1 Hour'
+    },
+    clickPath: [
+      'Sign in to <code>networksolutions.com</code> → <code>Domains</code> sidebar',
+      'Click namecrates.com (or check the box → <code>Actions</code> → <code>Manage</code>)',
+      'Scroll to <code>Advanced Tools</code> → next to "Advanced DNS Records" click <code>Manage</code>',
+      'Click <code>+Add Record</code> → select <code>CNAME</code>',
+      'Refers to: <code>www</code> (from dropdown — this is their unique wording) · Alias to: <code>customers.sitewarming.com</code>',
+      'For redirect: domain page → Advanced Tools → <code>Web Forwarding</code> → Manage → forward to <code>https://www.namecrates.com</code>'
+    ],
+    deepLink: 'https://www.networksolutions.com/my-account/domains',
+    gotchas: [
+      'Domain MUST use Network Solutions managed nameservers (not custom NS). This is a hard requirement.',
+      'The "Refers to" dropdown is unique terminology — most tutorials don\'t mention this. Don\'t type @ into the field; pick from the dropdown.',
+      'Some advanced DNS changes go through manual review and take 24–48 business hours to process.'
+    ]
+  },
+
+  hover: {
+    name: 'Hover',
+    icon: '🟣',
+    color: '#80bd01',
+    apexSupported: false,
+    redirectFeature: 'External redirect required',
+    summary: 'Hover explicitly does not support any CNAME records using @ as the hostname. There is no ALIAS, ANAME, or built-in redirect feature comparable to GoDaddy. We recommend the www-only setup.',
+    apex: {
+      type: 'Not supported',
+      name: '—',
+      target: '—',
+      note: 'Hover\'s docs explicitly state: "Hover is unable to support any CNAME records which use the root (@) as the hostname." Use www only, or set up an external redirect via apextowww.com or similar.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '(leave default)'
+    },
+    clickPath: [
+      'Sign in to <code>hover.com</code> → click namecrates.com under "Manage Your Domains"',
+      '<code>DNS</code> tab',
+      '<code>Add a Record</code>',
+      'Type: <code>CNAME</code> · Hostname: <code>www</code> · Target Host: <code>customers.sitewarming.com</code> → Save',
+      'For the apex (optional): use a third-party redirect service like apextowww.com or redirect.pizza'
+    ],
+    deepLink: 'https://www.hover.com/control_panel/domain/namecrates.com/dns',
+    gotchas: [
+      'Hover\'s wildcard A record routes ALL undefined subdomains to a Hover landing page. Delete it if you only want www to resolve.',
+      'There is no native apex-to-subdomain forwarding feature. namecrates.com (without www) won\'t resolve unless you use an external redirect service.',
+      'Hover Connect (their auto-config product) supports a small partner list — SiteWarming could request inclusion to simplify this.'
+    ],
+    warning: 'Hover blocks @ CNAME entirely. The "Without www" option is unavailable on this registrar. Use www only.'
+  },
+
+  dynadot: {
+    name: 'Dynadot',
+    icon: '🟡',
+    color: '#ffc107',
+    apexSupported: true,
+    apexMethod: 'ANAME Record',
+    summary: 'Dynadot supports apex pointing via their ANAME record type, which is functionally identical to ALIAS. Coexists peacefully with email records.',
+    apex: {
+      type: 'ANAME (in Domain Record section)',
+      name: '(apex)',
+      target: TARGET,
+      ttl: 'Default'
+    },
+    www: {
+      type: 'CNAME (in Subdomain Records section)',
+      name: 'www',
+      target: TARGET,
+      ttl: 'Default'
+    },
+    clickPath: [
+      'Sign in to <code>dynadot.com</code> → <code>My Domains</code> in the left sidebar → <code>Manage Domains</code>',
+      'Check the box next to namecrates.com → <code>Action</code> dropdown → <code>DNS Settings</code>',
+      'At the top of the page, set the dropdown to <code>Dynadot DNS</code> (not Forwarding/Stealth/Parking)',
+      'In the <code>Domain Record</code> section: Record Type: <code>ANAME</code> · Target: <code>customers.sitewarming.com</code>',
+      'In the <code>Subdomain Records</code> section: Subdomain: <code>www</code> · Record Type: <code>CNAME</code> · Target: <code>customers.sitewarming.com</code> → Save Settings'
+    ],
+    deepLink: 'https://www.dynadot.com/domain/setting/dns_setting.html?domain=namecrates.com',
+    gotchas: [
+      'The DNS-mode dropdown at the top is the #1 source of confusion. If it\'s set to Forwarding, Stealth, or Parking, you won\'t even see the record-editing form.',
+      'ANAME cannot coexist with A, AAAA, Forward, or Stealth Forward in the Domain Record section — pick one.',
+      'ANAME cannot be used in the Subdomain Records section (subdomain CNAMEs only).'
+    ]
+  },
+
+  namecom: {
+    name: 'Name.com',
+    icon: '🔷',
+    color: '#00a8e8',
+    apexSupported: false,
+    redirectFeature: 'URL Forwarding',
+    summary: 'Name.com explicitly states: "A CNAME cannot be set up on your bare domain." Use URL Forwarding for the apex and CNAME on www.',
+    apex: {
+      type: 'URL Forwarding (Redirect)',
+      name: '(blank/@)',
+      target: 'http://www.namecrates.com',
+      note: 'In the Add Record form set type = "Redirect"'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '300 (default)'
+    },
+    clickPath: [
+      'Sign in to <code>name.com</code> → <code>My Domains</code> (top right)',
+      'Click namecrates.com → <code>Manage DNS Records</code>',
+      'Scroll to the <code>Add Record</code> form at the bottom',
+      'Type: <code>CNAME</code> · Host: <code>www</code> · Answer: <code>customers.sitewarming.com</code> · TTL: <code>300</code>',
+      'For redirect: Add another record → Type: <code>Redirect</code> · Host: (blank) · URL: <code>http://www.namecrates.com</code>'
+    ],
+    deepLink: 'https://www.name.com/account/domain/details/namecrates.com#dns',
+    gotchas: [
+      'If you see a "WARNING!" banner at the top of the DNS Management page, your domain is on third-party nameservers and changes won\'t take effect. Click "Update Nameservers" to switch back to Name.com\'s defaults.',
+      'TTL defaults to 300 (5 minutes) which is fine for SaaS integrations.',
+      'Name.com has DNS Templates for common services — not currently a SiteWarming template, but worth requesting from their support.'
+    ]
+  },
+
+  bluehost: {
+    name: 'Bluehost',
+    icon: '🔵',
+    color: '#1a8fe8',
+    apexSupported: false,
+    redirectFeature: '.htaccess via cPanel',
+    summary: 'Bluehost is a hosting company with cPanel-based DNS. No ALIAS or ANAME. For apex routing, use a redirect via .htaccess on the hosting account or accept www-only.',
+    apex: {
+      type: '.htaccess redirect (via hosting)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'If you don\'t host on Bluehost, the apex won\'t resolve unless you use external redirect.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '4 Hours'
+    },
+    clickPath: [
+      'Sign in to <code>my.bluehost.com</code> → <code>Domains</code> sidebar',
+      'Click namecrates.com → <code>DNS</code> (or <code>Manage</code>)',
+      'Scroll to <code>DNS Manager</code> → in the <code>CNAME (Alias) Records</code> group click <code>+ Add Record</code>',
+      'Host Record: <code>www</code> · Points To: <code>customers.sitewarming.com</code> · TTL: <code>4 Hours</code> → Save',
+      '(Older accounts: cPanel → Domains → <code>Zone Editor</code> → Manage → +Add Record → CNAME)'
+    ],
+    deepLink: 'https://my.bluehost.com/hosting/cpanel',
+    gotchas: [
+      'The "There was an issue adding the zone records" error is almost always a conflicting default A record (autodiscover, www, mail). Delete the conflicting record first.',
+      'Two interfaces exist ("Rock" UI and Legacy/cPanel) with significantly different navigation — both work.',
+      'Don\'t add a trailing dot to the Points To field — Bluehost does not want it.'
+    ]
+  },
+
+  hostgator: {
+    name: 'HostGator',
+    icon: '🐊',
+    color: '#26a0bf',
+    apexSupported: false,
+    redirectFeature: '.htaccess via cPanel',
+    summary: 'HostGator uses cPanel for DNS. Same limitations as Bluehost — no ALIAS/ANAME. CNAME on www, use hosting-level redirect for apex.',
+    apex: {
+      type: '.htaccess redirect (via cPanel)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'Set up via the hosting account\'s .htaccess or use external redirect if domain only.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '14400 (4 hours)'
+    },
+    clickPath: [
+      'Sign in at <code>portal.hostgator.com</code> → <code>cPanel</code>',
+      '<code>Domains</code> section → <code>Zone Editor</code>',
+      'Find namecrates.com → click <code>+ CNAME Record</code> (inline quick-add) or <code>Manage</code> → <code>+Add Record</code>',
+      'Name: <code>www</code> · CNAME: <code>customers.sitewarming.com</code> · TTL: <code>14400</code> → Add',
+      'For HostGator-registered (no hosting): Customer Portal → Domains → namecrates.com → Advanced Tools → Manage Advanced DNS Records'
+    ],
+    deepLink: 'https://portal.hostgator.com',
+    gotchas: [
+      'HostGator may auto-append the parent domain to the Name field — verify before saving.',
+      'Plesk-based older accounts have a different click path: Plesk → Websites & Domains → DNS Settings.',
+      'The "+CNAME Record" quick-add button doesn\'t support all record types — use full Manage flow for TXT/AAAA.'
+    ]
+  },
+
+  ionos: {
+    name: '1&1 IONOS',
+    icon: '🔷',
+    color: '#003d8f',
+    apexSupported: false,
+    redirectFeature: 'Domain Forwarding',
+    summary: 'IONOS docs explicitly state CNAME entries are only allowed for subdomains, not the root domain. Use Domain Forwarding for the apex.',
+    apex: {
+      type: 'Domain Forwarding (HTTP redirect)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'Avoid "Frame Redirect" — it masks the URL and breaks SEO.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '1 Hour'
+    },
+    clickPath: [
+      'Sign in to <code>ionos.com</code> → <code>Menu</code> → <code>Domains &amp; SSL</code>',
+      'Next to namecrates.com click the gear icon → <code>DNS</code> (or <code>Manage Subdomains</code> on older accounts)',
+      'Click <code>Add Record</code> → choose <code>CNAME</code>',
+      'Hostname: <code>www</code> · Point to: <code>customers.sitewarming.com</code> → Save',
+      'For redirect: gear icon next to domain → <code>Adjust Destination</code> → Forward Domain → URL: <code>https://www.namecrates.com</code> → Type: <strong>HTTP redirect (recommended)</strong>'
+    ],
+    deepLink: 'https://my.ionos.com/domains',
+    gotchas: [
+      'IONOS is heavily localized — German UI labels differ from English ("Domain Weiterleitung" = Domain Forwarding).',
+      '"Managed" usage types (when domain is connected to an IONOS website builder, MyWebsite, or Online Store) BLOCK DNS edits. You must "Reset domain settings" to default first.',
+      'On some account types, IONOS forwarding for the apex cannot be combined with a CNAME on www — if you see errors, contact their support.'
+    ]
+  },
+
+  registercom: {
+    name: 'Register.com',
+    icon: '🟦',
+    color: '#005a9c',
+    apexSupported: false,
+    redirectFeature: 'Web Forwarding',
+    summary: 'Register.com (Web.com group) doesn\'t support CNAME at the root. Same approach as Network Solutions — Web Forwarding for apex, CNAME for www.',
+    apex: {
+      type: 'Web Forwarding (301)',
+      name: '@',
+      target: 'https://www.namecrates.com',
+      note: 'Found under Advanced Tools → Web Forwarding'
+    },
+    www: {
+      type: 'Domain Aliases Record (CNAME)',
+      name: 'www',
+      target: TARGET,
+      ttl: '1 Hour'
+    },
+    clickPath: [
+      'Sign in to <code>register.com</code> → <code>Manage Account</code>',
+      '<code>Domains</code> → <code>Manage</code> next to namecrates.com',
+      'Scroll to <code>Advanced Technical Settings</code> → <code>Edit Domain Aliases Records</code> (their unique term for CNAMEs)',
+      'Subdomain: <code>www</code> · Other Host: <code>customers.sitewarming.com</code> → Continue → confirm',
+      'For redirect: Advanced Tools → <code>Web Forwarding</code> → 301 redirect to <code>https://www.namecrates.com</code>'
+    ],
+    deepLink: 'https://www.register.com/myaccount/',
+    gotchas: [
+      '"Edit Domain Aliases Records" is unique terminology. Searching for "CNAME" in their UI won\'t find it.',
+      'Existing A records on www must be deleted before adding the CNAME.',
+      'The multi-step navigation ("Change Where Domain Points" → "Advanced DNS" → "Continue") is slow — expect 4–5 clicks.'
+    ]
+  },
+
+  tucows: {
+    name: 'Tucows (Reseller Network)',
+    icon: '🐄',
+    color: '#666666',
+    apexSupported: null,
+    isWholesale: true,
+    summary: 'Tucows is a wholesale registry, not a retail registrar. You purchased your domain through one of their resellers — most likely Hover, OpenSRS, Enom, or Ascio. Log in to whichever company you actually paid (check your purchase receipt).',
+    apex: {
+      type: 'Depends on reseller',
+      name: '—',
+      target: '—',
+      note: 'Generic instructions: add a CNAME on www pointing to customers.sitewarming.com, then ask your reseller about apex options.'
+    },
+    www: {
+      type: 'CNAME',
+      name: 'www',
+      target: TARGET,
+      ttl: '1 Hour'
+    },
+    clickPath: [
+      'Find your original purchase receipt — it tells you which company to log in to',
+      'Common Tucows resellers include: <code>Hover</code>, <code>OpenSRS</code> partners (most small web hosts), <code>Enom</code>, <code>Ascio</code>',
+      'In their DNS panel, look for "Add Record" or "DNS Records"',
+      'Add: Type <code>CNAME</code> · Name: <code>www</code> · Value: <code>customers.sitewarming.com</code>',
+      'For apex behavior, ask their support whether they offer ALIAS, ANAME, or URL forwarding'
+    ],
+    gotchas: [
+      'There is no Tucows-branded retail dashboard — log in to your actual reseller.',
+      'OpenSRS resellers are extremely varied (small ISPs, web designers, hosting companies) — UI differs widely.',
+      'If your domain shows "Tucows" but you can\'t identify the reseller, check WHOIS for the "Sponsoring Registrar" field — that\'s usually your provider.'
+    ],
+    warning: 'You\'re likely on a Tucows reseller, not Tucows directly. Log in to whichever company you bought your domain from.'
+  }
+};
+
+// Drop-in detection ordering for the dropdown
+const PROVIDER_ORDER = [
+  'godaddy','namecheap','squarespace','cloudflare','porkbun',
+  'networksolutions','hover','dynadot','namecom','bluehost',
+  'hostgator','ionos','registercom','tucows'
+];
+
+// ======================================================================
+// STATE
+// ======================================================================
+
+let currentProvider = 'namecheap';
+let currentMethod = 'A';
+
+// ======================================================================
+// RENDERING
+// ======================================================================
+
+function populateDropdown() {
+  const sel = document.getElementById('providerSelect');
+  PROVIDER_ORDER.forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = `${registrars[key].icon}  ${registrars[key].name}`;
+    sel.appendChild(opt);
+  });
+  sel.value = currentProvider;
+  sel.addEventListener('change', e => setProvider(e.target.value));
+}
+
+function setProvider(key) {
+  currentProvider = key;
+  document.getElementById('providerSelect').value = key;
+  const r = registrars[key];
+
+  // Provider icon
+  document.getElementById('providerIcon').textContent = r.icon;
+
+  // Detection message
+  const detMsg = document.getElementById('detectionMsg');
+  if (r.isWholesale) {
+    detMsg.className = 'detection-msg warning';
+    detMsg.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Wholesale registry — log in to your actual reseller</span>';
+  } else {
+    detMsg.className = 'detection-msg';
+    detMsg.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Auto-detected from your domain registrar</span>';
+  }
+
+  // Compatibility note
+  const compat = document.getElementById('compatibilityMsg');
+  if (r.apexSupported === true) {
+    compat.innerHTML = `<strong style="color:var(--success)">${r.name}</strong> supports pointing your bare domain natively via <strong>${r.apexMethod}</strong> — we recommend the "Without www" option below.`;
+  } else if (r.apexSupported === false) {
+    compat.innerHTML = `<strong>${r.name}</strong> doesn't support a CNAME on the bare domain — we recommend the "With www" option below, with a redirect from ${DOMAIN}.`;
+  } else {
+    compat.innerHTML = `<strong>${r.name}</strong> instructions vary by reseller — see the generic guide below.`;
+  }
+
+  // Auto-pick the best method
+  currentMethod = r.apexSupported === true ? 'A' : 'B';
+  if (r.name === 'Hover') currentMethod = 'B'; // Hover blocks @ entirely
+
+  renderMethods();
+  renderGotchas();
+  updateVerification();
+  updateVideoFab();
+}
+
+function renderMethods() {
+  const r = registrars[currentProvider];
+  const methodA = document.getElementById('methodA');
+  const methodB = document.getElementById('methodB');
+  const badgeA = document.getElementById('methodABadge');
+  const badgeB = document.getElementById('methodBBadge');
+
+  // Selection state
+  methodA.classList.toggle('selected', currentMethod === 'A');
+  methodB.classList.toggle('selected', currentMethod === 'B');
+
+  // Badges
+  if (r.apexSupported === true) {
+    badgeA.style.display = 'inline-block';
+    badgeA.textContent = 'Recommended';
+    badgeA.className = 'method-badge badge-recommended';
+    badgeB.style.display = 'none';
+    methodA.classList.remove('disabled');
+  } else if (r.apexSupported === false) {
+    badgeA.style.display = 'inline-block';
+    badgeA.textContent = 'Not supported here';
+    badgeA.className = 'method-badge badge-not-supported';
+    badgeB.style.display = 'inline-block';
+    badgeB.textContent = 'Recommended';
+    badgeB.className = 'method-badge badge-recommended';
+    methodA.classList.add('disabled');
+  } else {
+    badgeA.style.display = 'none';
+    badgeB.style.display = 'inline-block';
+    badgeB.textContent = 'Recommended';
+    badgeB.className = 'method-badge badge-recommended';
+  }
+
+  // Method A body (Without www)
+  document.getElementById('methodABody').innerHTML = renderMethodA(r);
+
+  // Method B body (With www)
+  document.getElementById('methodBBody').innerHTML = renderMethodB(r);
+}
+
+function renderMethodA(r) {
+  if (r.apexSupported === false) {
+    return `
+      <div class="callout danger">
+        <strong>Not available on ${r.name}.</strong> This registrar doesn't support CNAME at the bare domain. Switch to the "With www" option above — we'll set up a redirect from ${DOMAIN} → www.${DOMAIN}.
+      </div>
+    `;
+  }
+  if (r.isWholesale) {
+    return `
+      <div class="callout warning">
+        <strong>Generic instructions only.</strong> Your actual reseller may or may not support apex pointing. Ask their support team about ALIAS/ANAME records.
+      </div>
+    `;
+  }
+  return `
+    <div class="callout"><strong>Add this record at ${r.name}</strong> — apex pointing via <strong>${r.apexMethod}</strong> resolves your domain at ${DOMAIN} directly.</div>
+
+    <div class="record-label"><span class="step-pill">A</span> Apex record (your bare domain)</div>
+    <div class="record-grid">
+      <div class="record-cell">
+        <span class="record-cell-label">Type</span>
+        <span class="record-cell-value">${r.apex.type}</span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Name</span>
+        <span class="record-cell-value">${r.apex.name}<button class="copy-btn" onclick="copyValue(event, '${r.apex.name}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Target</span>
+        <span class="record-cell-value">${r.apex.target}<button class="copy-btn" onclick="copyValue(event, '${r.apex.target}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+    </div>
+
+    <div class="record-label" style="margin-top:18px;"><span class="step-pill">B</span> www record (recommended companion)</div>
+    <div class="record-grid">
+      <div class="record-cell">
+        <span class="record-cell-label">Type</span>
+        <span class="record-cell-value">${r.www.type}</span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Name</span>
+        <span class="record-cell-value">${r.www.name}<button class="copy-btn" onclick="copyValue(event, '${r.www.name}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Target</span>
+        <span class="record-cell-value">${r.www.target}<button class="copy-btn" onclick="copyValue(event, '${r.www.target}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+    </div>
+
+    ${renderClickPath(r)}
+    ${renderWarning(r)}
+  `;
+}
+
+function renderMethodB(r) {
+  const useApex = r.apexSupported === true ? `${DOMAIN}` : `${DOMAIN} (via redirect)`;
+  return `
+    <div class="callout"><strong>Add these records at ${r.name}</strong> — your site will be live at <strong>www.${DOMAIN}</strong>${r.apexSupported === false ? `, with ${DOMAIN} redirecting to it.` : '.'}</div>
+
+    <div class="record-label"><span class="step-pill">A</span> CNAME record on www</div>
+    <div class="record-grid">
+      <div class="record-cell">
+        <span class="record-cell-label">Type</span>
+        <span class="record-cell-value">${r.www.type}</span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Name</span>
+        <span class="record-cell-value">${r.www.name}<button class="copy-btn" onclick="copyValue(event, '${r.www.name}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Target</span>
+        <span class="record-cell-value">${r.www.target}<button class="copy-btn" onclick="copyValue(event, '${r.www.target}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+    </div>
+
+    ${r.apexSupported === false && r.redirectFeature && r.name !== 'Hover' ? `
+    <div class="record-label" style="margin-top:18px;"><span class="step-pill">B</span> Redirect from bare domain (using ${r.redirectFeature})</div>
+    <div class="record-grid">
+      <div class="record-cell">
+        <span class="record-cell-label">Type</span>
+        <span class="record-cell-value">${r.apex.type}</span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Name</span>
+        <span class="record-cell-value">${r.apex.name}</span>
+      </div>
+      <div class="record-cell">
+        <span class="record-cell-label">Target</span>
+        <span class="record-cell-value">${r.apex.target}<button class="copy-btn" onclick="copyValue(event, '${r.apex.target}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+    </div>
+    <div class="record-helper" style="margin-top:6px;">${r.apex.note || ''}</div>
+    ` : ''}
+
+    ${r.name === 'Hover' ? `
+    <div class="callout danger" style="margin-top:14px;">
+      <strong>Hover doesn't support apex redirects natively.</strong> Visitors typing namecrates.com (without www) will not see your site unless you use a third-party redirect service like apextowww.com or redirect.pizza.
+    </div>
+    ` : ''}
+
+    ${renderClickPath(r)}
+    ${renderWarning(r)}
+  `;
+}
+
+function renderClickPath(r) {
+  const linkBtn = r.deepLink && !r.isWholesale ? `<a href="${r.deepLink}" target="_blank" style="color:var(--accent); font-size:11px; font-weight:600; text-decoration:none; margin-left:auto; display:flex; align-items:center; gap:3px;">Open ${r.name} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>` : '';
+
+  return `
+    <div class="clickpath">
+      <div class="clickpath-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        Step-by-step on ${r.name}
+        ${linkBtn}
+      </div>
+      <ol class="clickpath-list">
+        ${r.clickPath.map((step, i) => `
+          <li class="clickpath-item">
+            <span class="clickpath-num">${i + 1}</span>
+            <span>${step}</span>
+          </li>
+        `).join('')}
+      </ol>
+    </div>
+  `;
+}
+
+function renderWarning(r) {
+  if (!r.warning) return '';
+  return `
+    <div class="callout warning" style="margin-top:14px;">
+      <strong>⚠ Important:</strong> ${r.warning}
+    </div>
+  `;
+}
+
+function renderGotchas() {
+  const r = registrars[currentProvider];
+  document.getElementById('gotchasList').innerHTML = r.gotchas.map(g => `<li class="gotchas-item">${g}</li>`).join('');
+}
+
+function selectMethod(m) {
+  const r = registrars[currentProvider];
+  // Don't allow selecting an unsupported method
+  if (m === 'A' && r.apexSupported === false) {
+    showToast('Not available on this registrar — switch to the With www option');
+    return;
+  }
+  currentMethod = m;
+  renderMethods();
+  updateVerification();
+}
+
+function updateVerification() {
+  const r = registrars[currentProvider];
+  const methodLabel = currentMethod === 'A' ? `Without www (${DOMAIN})` : `With www (www.${DOMAIN})`;
+  const targetUrl = currentMethod === 'A' ? DOMAIN : `www.${DOMAIN}`;
+  document.getElementById('verificationLine').textContent = `${methodLabel} ✓ Verified`;
+  document.getElementById('verificationStatus').textContent = `${methodLabel.split(' (')[0]} verified. Your site is ready at ${targetUrl}`;
+}
+
+function updateVideoFab() {
+  const r = registrars[currentProvider];
+  document.getElementById('fabRegName').textContent = r.name;
+  document.getElementById('modalRegName').textContent = r.name;
+  document.getElementById('modalTitle').textContent = `${r.name} — DNS Setup Walkthrough`;
+}
+
+// ======================================================================
+// INTERACTIONS
+// ======================================================================
+
+function copyValue(event, val) {
+  event.stopPropagation();
+  navigator.clipboard.writeText(val);
+  const btn = event.currentTarget;
+  btn.classList.add('copied');
+  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+  showToast(`Copied: ${val}`);
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  }, 1800);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('active');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.classList.remove('active'), 2000);
+}
+
+document.getElementById('videoFab').addEventListener('click', () => {
+  document.getElementById('videoModal').classList.add('active');
+});
+
+function closeModal() {
+  document.getElementById('videoModal').classList.remove('active');
+}
+
+document.getElementById('videoModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('videoModal')) closeModal();
+});
+
+// Card collapse toggles
+document.querySelectorAll('.card-toggle').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const card = e.currentTarget.closest('.card');
+    card.classList.toggle('collapsed');
+  });
+});
+
+// ======================================================================
+// INIT
+// ======================================================================
+
+populateDropdown();
+setProvider(currentProvider);
+</script>
+</body>
+</html>
